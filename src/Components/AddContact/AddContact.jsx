@@ -8,6 +8,9 @@ const AddContact = ({ addContactHandler }) => {
    };
 
    const submitForm = (event) => {
+      if (!contact.name || !contact.email) {
+         return alert('all fields are mandatory');
+      }
       event.preventDefault();
       addContactHandler(contact);
       setContact({ name: '', email: '' });
