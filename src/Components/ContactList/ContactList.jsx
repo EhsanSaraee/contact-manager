@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Contact from './Contact/Contact';
 import './ContactList.css';
 
 const ContactList = ({ contacts, onDelete }) => {
@@ -10,12 +11,8 @@ const ContactList = ({ contacts, onDelete }) => {
                <button>Add</button>
             </Link>
          </div>
-         {contacts.map(({ id, name, email }) => (
-            <div key={id} className="item">
-               <p>{name}</p>
-               <p>{email}</p>
-               <button onClick={() => onDelete(id)}>Delete</button>
-            </div>
+         {contacts.map((contact) => (
+            <Contact key={contact.id} contact={contact} onDelete={onDelete} />
          ))}
       </section>
    );
