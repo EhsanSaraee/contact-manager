@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import AddContact from './Components/AddContact/AddContact';
 import ContactList from './Components/ContactList/ContactList';
@@ -28,8 +29,28 @@ const App = () => {
    return (
       <main className="App">
          <h1>Contact Manager</h1>
-         <AddContact addContactHandler={addContactHandler} />
-         <ContactList contacts={contacts} onDelete={deleteContactHandler} />
+         <Switch>
+            <Route
+               path="/add-contact"
+               render={(props) => (
+                  <AddContact
+                     addContactHandler={addContactHandler}
+                     {...props}
+                  />
+               )}
+            />
+            <Route
+               path="/"
+               exact
+               render={(props) => (
+                  <ContactList
+                     contacts={contacts}
+                     onDelete={deleteContactHandler}
+                     {...props}
+                  />
+               )}
+            />
+         </Switch>
       </main>
    );
 };
