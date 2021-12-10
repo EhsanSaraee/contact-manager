@@ -1,7 +1,30 @@
+.listWrapper {
+   display: flex;
+   justify-content: center;
+}
+
 .contactList {
    display: flex;
    align-items: center;
    flex-direction: column;
+}
+
+.listHeader {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   margin-top: 20px;
+   width: 100%;
+}
+
+.listHeader button {
+   outline: none;
+   cursor: pointer;
+   color: #fff;
+   border: none;
+   background-color: #6d28d9;
+   padding: 5px 10px;
+   border-radius: 5px;
 }
 
 .contactList a {
@@ -10,7 +33,7 @@
 
 .item {
    background-color: #fff;
-   width: 20rem;
+   min-width: 20rem;
    display: flex;
    align-items: center;
    justify-content: space-between;
