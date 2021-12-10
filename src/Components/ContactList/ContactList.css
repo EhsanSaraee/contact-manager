@@ -4,6 +4,10 @@
    flex-direction: column;
 }
 
+.contactList a {
+   text-decoration: none;
+}
+
 .item {
    background-color: #fff;
    width: 20rem;

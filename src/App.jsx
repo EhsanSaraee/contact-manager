@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import AddContact from './Components/AddContact/AddContact';
+import ContactDetails from './Components/ContactDetails/ContactDetails';
 import ContactList from './Components/ContactList/ContactList';
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
       <main className="App">
          <h1>Contact Manager</h1>
          <Switch>
+            <Route path="/user/:id" component={ContactDetails} />
             <Route
                path="/add-contact"
                render={(props) => (
