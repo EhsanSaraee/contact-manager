@@ -11,11 +11,16 @@ const App = () => {
       setContacts([...contacts, newContact]);
    };
 
+   const deleteContactHandler = (id) => {
+      const filteredContacts = contacts.filter((contact) => contact.id !== id);
+      setContacts(filteredContacts);
+   };
+
    return (
       <main className="App">
          <h1>Contact Manager</h1>
          <AddContact addContactHandler={addContactHandler} />
-         <ContactList contacts={contacts} />
+         <ContactList contacts={contacts} onDelete={deleteContactHandler} />
       </main>
    );
 };
