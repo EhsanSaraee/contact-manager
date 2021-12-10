@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import AddContact from './Components/AddContact/AddContact';
 import ContactList from './Components/ContactList/ContactList';
@@ -15,6 +15,15 @@ const App = () => {
       const filteredContacts = contacts.filter((contact) => contact.id !== id);
       setContacts(filteredContacts);
    };
+
+   useEffect(() => {
+      const savedContacts = JSON.parse(localStorage.getItem('contacts'));
+      savedContacts && setContacts(savedContacts);
+   }, []);
+
+   useEffect(() => {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+   }, [contacts]);
 
    return (
       <main className="App">
