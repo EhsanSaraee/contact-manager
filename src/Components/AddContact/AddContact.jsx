@@ -1,14 +1,20 @@
 import { useState } from 'react';
 
-const AddContact = ({ onSubmit }) => {
+const AddContact = ({ addContactHandler }) => {
    const [contact, setContact] = useState({ name: '', email: '' });
 
    const changeHandler = (event) => {
       setContact({ ...contact, [event.target.name]: event.target.value });
    };
 
+   const submitForm = (event) => {
+      event.preventDefault();
+      addContactHandler(contact);
+      setContact({ name: '', email: '' });
+   };
+
    return (
-      <form onSubmit={onSubmit}>
+      <form onSubmit={submitForm}>
          <div className="formControl">
             <label htmlFor="name">Name</label>
             <input
