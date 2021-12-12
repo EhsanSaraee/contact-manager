@@ -5,13 +5,15 @@ import Contact from './Contact/Contact';
 import './ContactList.css';
 
 const ContactList = () => {
-   const [contacts, setContacts] = useState([]);
+   const [contacts, setContacts] = useState(null);
+   const [allContacts, setAllContacts] = useState(null);
    const [searchTerm, setSearchTerm] = useState('');
 
    useEffect(() => {
       const fetchContacts = async () => {
          const { data } = await getContacts();
          setContacts(data);
+         setAllContacts(data);
       };
       try {
          fetchContacts();
@@ -35,13 +37,17 @@ const ContactList = () => {
    const searchHandler = (event) => {
       const searchValue = event.target.value;
       setSearchTerm(searchValue);
-      const filteredContacts = contacts.filter((contact) =>
-         Object.values(contact)
-            .join(' ')
-            .toLowerCase()
-            .includes(searchValue.toLowerCase())
-      );
-      setContacts(filteredContacts);
+      if (searchValue !== '') {
+         const filteredContacts = allContacts.filter((contact) =>
+            Object.values(contact)
+               .join(' ')
+               .toLowerCase()
+               .includes(searchValue.toLowerCase())
+         );
+         setContacts(filteredContacts);
+      } else {
+         setContacts(allContacts);
+      }
    };
 
    return (
@@ -61,13 +67,17 @@ const ContactList = () => {
                   placeholder="Search"
                />
             </div>
-            {contacts.map((contact) => (
-               <Contact
-                  key={contact.id}
-                  contact={contact}
-                  onDelete={deleteContactHandler}
-               />
-            ))}
+            {contacts ? (
+               contacts.map((contact) => (
+                  <Contact
+                     key={contact.id}
+                     contact={contact}
+                     onDelete={deleteContactHandler}
+                  />
+               ))
+            ) : (
+               <p>Loading...</p>
+            )}
          </div>
       </section>
    );
