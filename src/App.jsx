@@ -1,35 +1,51 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import AddContact from './Components/AddContact/AddContact';
 import ContactDetails from './Components/ContactDetails/ContactDetails';
 import ContactList from './Components/ContactList/ContactList';
+import {
+   addContact,
+   deleteContact,
+   getContacts,
+} from './Services/contactService';
 
 const App = () => {
    const [contacts, setContacts] = useState([]);
 
-   const addContactHandler = (contact) => {
-      const newContact = { id: Math.ceil(Math.random() * 100), ...contact };
-      setContacts([...contacts, newContact]);
+   const addContactHandler = async (contact) => {
+      try {
+         const newContact = { id: new Date().getTime(), ...contact };
+         setContacts([...contacts, newContact]);
+         await addContact(contact);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
-   const deleteContactHandler = (id) => {
-      const filteredContacts = contacts.filter((contact) => contact.id !== id);
-      setContacts(filteredContacts);
+   const deleteContactHandler = async (id) => {
+      try {
+         const filteredContacts = contacts.filter(
+            (contact) => contact.id !== id
+         );
+         setContacts(filteredContacts);
+         await deleteContact(id);
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
-      const getContacts = async () => {
-         const { data } = await axios.get('http://localhost:3001/contacts');
+      const fetchContacts = async () => {
+         const { data } = await getContacts();
          setContacts(data);
       };
-      getContacts();
+      try {
+         fetchContacts();
+      } catch (error) {
+         console.log(error);
+      }
    }, []);
-
-   useEffect(() => {
-      localStorage.setItem('contacts', JSON.stringify(contacts));
-   }, [contacts]);
 
    return (
       <main className="App">
