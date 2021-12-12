@@ -6,6 +6,7 @@ import './ContactList.css';
 
 const ContactList = () => {
    const [contacts, setContacts] = useState([]);
+   const [searchTerm, setSearchTerm] = useState('');
 
    useEffect(() => {
       const fetchContacts = async () => {
@@ -31,6 +32,18 @@ const ContactList = () => {
       }
    };
 
+   const searchHandler = (event) => {
+      const searchValue = event.target.value;
+      setSearchTerm(searchValue);
+      const filteredContacts = contacts.filter((contact) =>
+         Object.values(contact)
+            .join(' ')
+            .toLowerCase()
+            .includes(searchValue.toLowerCase())
+      );
+      setContacts(filteredContacts);
+   };
+
    return (
       <section className="listWrapper">
          <div className="contactList">
@@ -39,6 +52,14 @@ const ContactList = () => {
                <Link to="/add-contact">
                   <button>Add</button>
                </Link>
+            </div>
+            <div>
+               <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={searchHandler}
+                  placeholder="Search"
+               />
             </div>
             {contacts.map((contact) => (
                <Contact
