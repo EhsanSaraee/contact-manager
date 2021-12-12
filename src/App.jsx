@@ -4,6 +4,7 @@ import './App.css';
 import AddContact from './Components/AddContact/AddContact';
 import ContactDetails from './Components/ContactDetails/ContactDetails';
 import ContactList from './Components/ContactList/ContactList';
+import EditContact from './Components/EditContact/EditContact';
 import {
    addContact,
    deleteContact,
@@ -15,9 +16,8 @@ const App = () => {
 
    const addContactHandler = async (contact) => {
       try {
-         const newContact = { id: new Date().getTime(), ...contact };
-         setContacts([...contacts, newContact]);
-         await addContact(contact);
+         const { data } = await addContact(contact);
+         setContacts([...contacts, data]);
       } catch (error) {
          console.log(error);
       }
@@ -25,11 +25,11 @@ const App = () => {
 
    const deleteContactHandler = async (id) => {
       try {
+         await deleteContact(id);
          const filteredContacts = contacts.filter(
             (contact) => contact.id !== id
          );
          setContacts(filteredContacts);
-         await deleteContact(id);
       } catch (error) {
          console.log(error);
       }
@@ -51,6 +51,7 @@ const App = () => {
       <main className="App">
          <h1>Contact Manager</h1>
          <Switch>
+            <Route path="/edit/:id" component={EditContact} />
             <Route path="/user/:id" component={ContactDetails} />
             <Route
                path="/add-contact"
