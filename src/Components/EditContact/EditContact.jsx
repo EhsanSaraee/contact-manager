@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getSingleContact } from '../../Services/contactService';
+import { getSingleContact, updateContact } from '../../Services/contactService';
 
 const EditContact = ({ editContactHandler, history, match }) => {
    const [contact, setContact] = useState({ name: '', email: '' });
@@ -8,14 +8,17 @@ const EditContact = ({ editContactHandler, history, match }) => {
       setContact({ ...contact, [event.target.name]: event.target.value });
    };
 
-   const submitForm = (event) => {
+   const submitForm = async (event) => {
       if (!contact.name || !contact.email) {
          return alert('all fields are mandatory');
       }
       event.preventDefault();
-      editContactHandler(contact, match.params.id);
-      setContact({ name: '', email: '' });
-      history.push('/');
+      try {
+         await updateContact(match.params.id, contact);
+         history.push('/');
+      } catch (error) {
+         console.log(error);
+      }
    };
 
    useEffect(() => {
@@ -28,7 +31,7 @@ const EditContact = ({ editContactHandler, history, match }) => {
          }
       };
       localFetch();
-   }, []);
+   }, [match.params.id]);
 
    return (
       <form onSubmit={submitForm}>
