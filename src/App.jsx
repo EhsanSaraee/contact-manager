@@ -9,6 +9,7 @@ import {
    addContact,
    deleteContact,
    getContacts,
+   updateContact,
 } from './Services/contactService';
 
 const App = () => {
@@ -18,6 +19,16 @@ const App = () => {
       try {
          const { data } = await addContact(contact);
          setContacts([...contacts, data]);
+      } catch (error) {
+         console.log(error);
+      }
+   };
+
+   const editContactHandler = async (contact, id) => {
+      try {
+         await updateContact(id, contact);
+         const { data } = await getContacts();
+         setContacts(data);
       } catch (error) {
          console.log(error);
       }
@@ -51,7 +62,15 @@ const App = () => {
       <main className="App">
          <h1>Contact Manager</h1>
          <Switch>
-            <Route path="/edit/:id" component={EditContact} />
+            <Route
+               path="/edit/:id"
+               render={(props) => (
+                  <EditContact
+                     editContactHandler={editContactHandler}
+                     {...props}
+                  />
+               )}
+            />
             <Route path="/user/:id" component={ContactDetails} />
             <Route
                path="/add-contact"

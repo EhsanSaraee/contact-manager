@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getSingleContact } from '../../Services/contactService';
 
-const EditContact = ({ addContactHandler, history, match }) => {
+const EditContact = ({ editContactHandler, history, match }) => {
    const [contact, setContact] = useState({ name: '', email: '' });
 
    const changeHandler = (event) => {
@@ -13,7 +13,7 @@ const EditContact = ({ addContactHandler, history, match }) => {
          return alert('all fields are mandatory');
       }
       event.preventDefault();
-      addContactHandler(contact);
+      editContactHandler(contact, match.params.id);
       setContact({ name: '', email: '' });
       history.push('/');
    };
@@ -52,7 +52,7 @@ const EditContact = ({ addContactHandler, history, match }) => {
                onChange={changeHandler}
             />
          </div>
-         <button type="submit">Edit Contact</button>
+         <button type="submit">Update Contact</button>
       </form>
    );
 };
